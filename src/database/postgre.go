@@ -2,7 +2,10 @@ package database
 
 import (
     "database/sql"
+    "errors"
+
 	_ "github.com/jackc/pgx/v4/stdlib"
+    "github.com/jackc/pgconn"
 )
 
 type LinkPair struct {
@@ -39,7 +42,13 @@ func (pg *PgDatabase) Close() error {
 func (pg *PgDatabase) CreateUrl(longUrl LongURL) (ShortURL, error) {
     shortUrl := ShortURL(ConvertUrl([]byte(longUrl)))
     _, err := pg.db.Exec("INSERT INTO urls (short_url, long_url) VALUES ($1, $2)", shortUrl, longUrl)
+
     if err != nil {
+        var pgErr *pgconn.PgError
+        if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+            return "", &AlreadyExists{longUrl}
+        }
+
         return "", err
     }
 
@@ -51,6 +60,10 @@ func (pg *PgDatabase) GetUrl(shortUrl ShortURL) (LongURL, error) {
     
     var longUrl string
     if err := row.Scan(&longUrl); err != nil {
+        if err == sql.ErrNoRows {
+            return "", &NotFound{shortUrl}
+        }
+
         return "", err
     }
 
