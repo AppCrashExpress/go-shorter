@@ -1,9 +1,5 @@
 package database
 
-import (
-    shorter "github.com/AppCrashExpress/go-shorter/src"
-)
-
 type MemoryDatabase struct {
     urlMap map[ShortURL]LongURL;
 }
@@ -15,7 +11,7 @@ func NewMemoryDatabase() *MemoryDatabase {
 }
 
 func (db *MemoryDatabase) CreateUrl(longUrl LongURL) (ShortURL, error) {
-    shortUrl := ShortURL(shorter.ConvertUrl([]byte(longUrl)))
+    shortUrl := ShortURL(ConvertUrl([]byte(longUrl)))
 
     _, ok := db.urlMap[shortUrl]
     if ok {

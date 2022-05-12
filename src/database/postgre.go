@@ -3,8 +3,6 @@ package database
 import (
     "database/sql"
 	_ "github.com/jackc/pgx/v4/stdlib"
-
-    shorter "github.com/AppCrashExpress/go-shorter/src"
 )
 
 type LinkPair struct {
@@ -39,7 +37,7 @@ func (pg *PgDatabase) Close() error {
 }
 
 func (pg *PgDatabase) CreateUrl(longUrl LongURL) (ShortURL, error) {
-    shortUrl := ShortURL(shorter.ConvertUrl([]byte(longUrl)))
+    shortUrl := ShortURL(ConvertUrl([]byte(longUrl)))
     _, err := pg.db.Exec("INSERT INTO urls (short_url, long_url) VALUES ($1, $2)", shortUrl, longUrl)
     if err != nil {
         return "", err

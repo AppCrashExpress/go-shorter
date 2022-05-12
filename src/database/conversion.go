@@ -1,4 +1,4 @@
-package shorter
+package database
 
 import (
 	"crypto/sha1"
