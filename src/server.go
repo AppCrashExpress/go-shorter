@@ -24,6 +24,8 @@ func (srv *URLServer) CreateNew(ctx context.Context, pbLongUrl *pb.LongURL) (*pb
     pbShortUrl := &pb.ShortURL{Surl: string(shortUrl)}
     if err != nil {
         log.Printf("Server failed to create URL '%s': %v", longUrl, err)
+    } else {
+        log.Printf("Added new URL '%s' (short: '%s')", longUrl, shortUrl)
     }
 
     return pbShortUrl, err
@@ -36,6 +38,8 @@ func (srv *URLServer) GetAssociated(ctx context.Context, pbShortUrl *pb.ShortURL
     pbLongUrl := &pb.LongURL{Lurl: string(longUrl)}
     if err != nil {
         log.Printf("Server failed to get short URL '%s': %v", shortUrl, err)
+    } else {
+        log.Printf("Fetched URL '%s' (short: '%s')", longUrl, shortUrl)
     }
 
     return pbLongUrl, err

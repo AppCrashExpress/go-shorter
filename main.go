@@ -29,7 +29,8 @@ func main() {
         }
     }
 
-    lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%s", envs["PORT"]))
+    serverUrl := fmt.Sprintf("0.0.0.0:%s", envs["PORT"])
+    lis, err := net.Listen("tcp", serverUrl)
     if err != nil {
         log.Fatalf("Failed to listen: %v", err)
     }
@@ -53,13 +54,15 @@ func main() {
         }()
 
         db = pg
+        log.Println("Using PostgreSQL database")
 
     } else {
         inm := database.NewMemoryDatabase()
         db = inm
+        log.Println("Using in-memory database")
     }
     
-    log.Println("Starting server")
+    log.Printf("Starting server on %s\n", serverUrl)
     grpcServer := grpc.NewServer()
     pb.RegisterShortnerServer(grpcServer, shorter.NewServer(db))
     grpcServer.Serve(lis)
