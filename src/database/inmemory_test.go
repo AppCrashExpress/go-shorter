@@ -50,3 +50,13 @@ func TestRepeat(t *testing.T) {
         t.Fatalf("'%s' added twice", url)
     }
 }
+
+func TestNonexisting(t *testing.T) {
+    url := ShortURL("fah12_41n")
+    memoryDatabase := NewMemoryDatabase()
+    
+    _, err := memoryDatabase.GetUrl(url)
+    if err == nil {
+        t.Fatalf("Database didn't fail when accessing non existing '%s'", url)
+    }
+}
