@@ -3,6 +3,7 @@ module github.com/AppCrashExpress/go-shorter
 go 1.18
 
 require (
+	github.com/jackc/pgconn v1.12.1
 	github.com/jackc/pgx/v4 v4.16.1
 	google.golang.org/grpc v1.46.0
 	google.golang.org/protobuf v1.28.0
@@ -11,7 +12,6 @@ require (
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgconn v1.12.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.3.0 // indirect

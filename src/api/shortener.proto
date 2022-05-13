@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "github.com/AppCrashExpress/go-shorter/src/api";
+
+service Shortner {
+    // Creates new shortened URL
+    rpc CreateNew (LongURL) returns (ShortURL) {}
+    // Returns associated short URL with given URL
+    rpc GetAssociated (ShortURL) returns (LongURL) {}
+
+    // Since null values are undefined,
+    // returned URLs do not exist on error, check error first
+}
+
+message LongURL {
+    string lurl = 1;
+}
+
+message ShortURL {
+    string surl = 1;
+}
