@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  postgresdb:
+    image: postgres
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+
+  service:
+    build: .
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PORT: ${PORT}
+      INMEMORY: ${INMEMORY}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - postgresdb
+
